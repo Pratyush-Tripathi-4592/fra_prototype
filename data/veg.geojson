@@ -1,1 +1,1 @@
-{"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"type": "forest"}, "geometry": {"type": "Polygon", "coordinates": [[[80.07, 22.05], [80.09, 22.05], [80.09, 22.07], [80.07, 22.07], [80.07, 22.05]]]}}]}
+{"type": "FeatureCollection", "features": [{"properties": {"class": 1}, "geometry": {"type": "Polygon", "coordinates": [[[78.71566772460939, 24.457150524185852], [78.71566772460939, 23.479621953329048], [80.07522583007812, 23.479621953329048], [80.07522583007812, 24.457150524185852], [78.71566772460939, 24.457150524185852]]]}}]}
