@@ -38,3 +38,13 @@ def root():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+from dss import recommend
+
+@app.route('/api/recommendations')
+def recommendations():
+    # Demo record (would come from DB in real system)
+    record = {"land_size":0.5, "landholding_type":"smallholder", "is_farmer":True}
+    water_index = 0.1  # demo value
+    recs = recommend(record, water_index)
+    return jsonify(recs)
