@@ -1,4 +1,4 @@
-<!-- <!doctype html>
+<!doctype html>
 <html>
 <head>
   <meta charset="utf-8" />
@@ -22,102 +22,6 @@
     fetch('/api/veg').then(r=>r.json()).then(data=>{
       L.geoJSON(data,{style:{color:'green'}}).addTo(map);
     });
-  </script>
-</body>
-</html> -->
-
-
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <title>FRA Atlas Prototype</title>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <style>
-    body, html {margin:0; padding:0; height:100%; display:flex;}
-    #sidebar {width:30%; padding:10px; background:#f4f4f4; overflow-y:auto;}
-    #map {flex:1; height:100%;}
-    h2 {margin-top:0;}
-    .card {background:white; padding:10px; margin:10px 0; border-radius:8px; box-shadow:0 2px 4px rgba(0,0,0,0.1);}
-  </style>
-</head>
-<body>
-  <div id="sidebar">
-    <h2>FRA DSS Dashboard</h2>
-    
-    <div class="card">
-      <h3>Upload FRA Document</h3>
-      <input type="file" id="docInput"/>
-      <button onclick="uploadDoc()">Process</button>
-      <pre id="ocrOutput"></pre>
-    </div>
-
-    <div class="card">
-      <h3>Scheme Recommendations</h3>
-      <button onclick="getRecs()">Get Recommendations</button>
-      <ul id="recList"></ul>
-    </div>
-
-    <div class="card">
-      <h3>Stats</h3>
-      <p id="stats">Loading...</p>
-    </div>
-  </div>
-
-  <div id="map"></div>
-
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script>
-    var map = L.map('map').setView([22.0, 80.0], 5);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-    let fraCount = 0, waterCount = 0, vegCount = 0;
-
-    fetch('/api/fra').then(r=>r.json()).then(data=>{
-      fraCount = data.features.length;
-      L.geoJSON(data,{onEachFeature:(f,l)=>l.bindPopup("Patta Holder: "+f.properties.name)}).addTo(map);
-      updateStats();
-    });
-
-    fetch('/api/water').then(r=>r.json()).then(data=>{
-      waterCount = data.features.length;
-      L.geoJSON(data,{style:{color:'blue'}}).addTo(map);
-      updateStats();
-    });
-
-    fetch('/api/veg').then(r=>r.json()).then(data=>{
-      vegCount = data.features.length;
-      L.geoJSON(data,{style:{color:'green'}}).addTo(map);
-      updateStats();
-    });
-
-    function updateStats() {
-      document.getElementById("stats").innerText =
-        `FRA Claims: ${fraCount}\nWater Bodies: ${waterCount}\nVegetation Areas: ${vegCount}`;
-    }
-
-    function uploadDoc() {
-      let file = document.getElementById("docInput").files[0];
-      let formData = new FormData();
-      formData.append("file", file);
-      fetch('/upload',{method:'POST', body:formData})
-        .then(r=>r.json())
-        .then(data=>{
-          document.getElementById("ocrOutput").innerText = data.text + "\\nEntities: " + JSON.stringify(data.entities,null,2);
-        });
-    }
-
-    function getRecs() {
-      fetch('/api/recommendations').then(r=>r.json()).then(data=>{
-        let list = document.getElementById("recList");
-        list.innerHTML = "";
-        data.forEach(r=>{
-          let li = document.createElement("li");
-          li.innerText = r.scheme + " → " + r.reason;
-          list.appendChild(li);
-        });
-      });
-    }
   </script>
 </body>
 </html>
