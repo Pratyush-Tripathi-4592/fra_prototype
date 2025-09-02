@@ -1,0 +1,1 @@
+{"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"type": "forest"}, "geometry": {"type": "Polygon", "coordinates": [[[80.07, 22.05], [80.09, 22.05], [80.09, 22.07], [80.07, 22.07], [80.07, 22.05]]]}}]}
