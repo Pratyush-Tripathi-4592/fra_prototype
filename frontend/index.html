@@ -9,19 +9,20 @@
     #map{height:100%;}
     .card {
       position: absolute;
-      top: 10px;
       background: white;
       padding: 10px;
       border-radius: 4px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.2);
       z-index: 1000;
+      min-width: 220px;
     }
-    .card:nth-child(2) {
-      right: 10px;
+    #filters-card {
+      left: 10px;
+      top: 10px;
     }
-    .card:nth-child(3) {
+    #stats-card {
       right: 10px;
-      top: 150px;
+      top: 10px;
     }
     select {
       margin: 5px 0;
@@ -119,31 +120,31 @@ function applyFilters() {
 }
 
   </script>
-  <div class="card">
-  <h3>Filters</h3>
-  <label>State: 
-    <select id="stateFilter" onchange="applyFilters()">
-      <option value="">All</option>
-      <option value="Madhya Pradesh">Madhya Pradesh</option>
-      <option value="Odisha">Odisha</option>
-      <option value="Tripura">Tripura</option>
-      <option value="Telangana">Telangana</option>
-    </select>
-  </label><br><br>
-  <label>Tribal Group: 
-    <select id="tribeFilter" onchange="applyFilters()">
-      <option value="">All</option>
-      <option value="Gond">Gond</option>
-      <option value="Santhal">Santhal</option>
-      <option value="Khasi">Khasi</option>
-    </select>
-  </label>
-</div>
+  <div class="card" id="filters-card">
+    <h3>Filters</h3>
+    <label>State: 
+      <select id="stateFilter" onchange="applyFilters()">
+        <option value="">All</option>
+        <option value="Madhya Pradesh">Madhya Pradesh</option>
+        <option value="Odisha">Odisha</option>
+        <option value="Tripura">Tripura</option>
+        <option value="Telangana">Telangana</option>
+      </select>
+    </label><br><br>
+    <label>Tribal Group: 
+      <select id="tribeFilter" onchange="applyFilters()">
+        <option value="">All</option>
+        <option value="Gond">Gond</option>
+        <option value="Santhal">Santhal</option>
+        <option value="Khasi">Khasi</option>
+      </select>
+    </label>
+  </div>
 
-<div class="card">
-  <h3>Stats</h3>
-  <p id="stats">Loading...</p>
-</div>
+  <div class="card" id="stats-card">
+    <h3>Stats</h3>
+    <p id="stats">Loading...</p>
+  </div>
 
 </body>
 </html>
