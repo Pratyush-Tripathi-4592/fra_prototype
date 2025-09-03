@@ -4,7 +4,31 @@
   <meta charset="utf-8" />
   <title>FRA Atlas Prototype</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-  <style>body,html {margin:0; padding:0; height:100%;} #map{height:100%;}</style>
+  <style>
+    body,html {margin:0; padding:0; height:100%;}
+    #map{height:100%;}
+    .card {
+      position: absolute;
+      top: 10px;
+      background: white;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      z-index: 1000;
+    }
+    .card:nth-child(2) {
+      right: 10px;
+    }
+    .card:nth-child(3) {
+      right: 10px;
+      top: 150px;
+    }
+    select {
+      margin: 5px 0;
+      padding: 4px;
+      width: 200px;
+    }
+  </style>
 </head>
 <body>
   <div id="map"></div>
@@ -33,6 +57,39 @@ fetch('/api/fra').then(r=>r.json()).then(data=>{
   fraCount = data.features.length;
   updateStats();
 });
+
+function calculateAreaStats(features) {
+  let totalArea = 0;
+  let waterArea = 0;
+  let vegArea = 0;
+
+  features.forEach(f => {
+    if (f.properties.area) {
+      totalArea += f.properties.area;
+      if (f.properties.waterCoverage) {
+        waterArea += f.properties.area * f.properties.waterCoverage;
+      }
+      if (f.properties.vegCoverage) {
+        vegArea += f.properties.area * f.properties.vegCoverage;
+      }
+    }
+  });
+
+  return { totalArea, waterArea, vegArea };
+}
+
+function updateStats() {
+  if (!fraData) return;
+  
+  const stats = calculateAreaStats(fraData.features);
+  const statsHtml = `
+    <p>Total FRA Claims: ${fraData.features.length}</p>
+    <p>Total Area: ${stats.totalArea.toFixed(2)} ha</p>
+    <p>Water Coverage: ${stats.waterArea.toFixed(2)} ha (${((stats.waterArea/stats.totalArea)*100).toFixed(1)}%)</p>
+    <p>Vegetation Coverage: ${stats.vegArea.toFixed(2)} ha (${((stats.vegArea/stats.totalArea)*100).toFixed(1)}%)</p>
+  `;
+  document.getElementById('stats').innerHTML = statsHtml;
+}
 
 function applyFilters() {
   let stateVal = document.getElementById("stateFilter").value;

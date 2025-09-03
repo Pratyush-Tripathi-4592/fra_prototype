@@ -25,14 +25,14 @@ def raster_to_geojson(mask, transform, threshold=0.2):
 
 if __name__ == "__main__":
     # Example: NDVI (Red=B04, NIR=B08)
-    ndvi, profile = compute_index("../data/2025-08-19-00:00_2025-08-19-23:59_Sentinel-2_L1C_B03_(Raw).tiff", "../data/2025-08-19-00:00_2025-08-19-23:59_Sentinel-2_L1C_NDWI.tiff", index="NDVI")
+    ndvi, profile = compute_index("../data/2025-08-19-00:00_2025-08-19-23:59_Sentinel-2_L1C_B04_(Raw).tiff", "../data/2025-08-19-00:00_2025-08-19-23:59_Sentinel-2_L1C_B05_(Raw).tiff", index="NDVI")
     ndvi_mask = ndvi > 0.3  # vegetation threshold
     ndvi_geojson = raster_to_geojson(ndvi_mask, profile["transform"])
     with open("../data/veg.geojson", "w") as f:
         json.dump(ndvi_geojson, f)
 
     # Example: NDWI (Green=B03, NIR=B08)
-    ndwi, profile = compute_index("../data/2025-08-19-00:00_2025-08-19-23:59_Sentinel-2_L1C_B05_(Raw).tiff", "../data/2025-08-19-00:00_2025-08-19-23:59_Sentinel-2_L1C_NDWI.tiff", index="NDWI")
+    ndwi, profile = compute_index("../data/2025-08-19-00:00_2025-08-19-23:59_Sentinel-2_L1C_B03_(Raw).tiff", "../data/2025-08-19-00:00_2025-08-19-23:59_Sentinel-2_L1C_B05_(Raw).tiff", index="NDWI")
     ndwi_mask = ndwi > 0.2  # water threshold
     ndwi_geojson = raster_to_geojson(ndwi_mask, profile["transform"])
     with open("../data/water.geojson", "w") as f:

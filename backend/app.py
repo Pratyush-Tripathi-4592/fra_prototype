@@ -36,15 +36,46 @@ def get_veg():
 def root():
     return send_from_directory(app.static_folder, 'index.html')
 
-if __name__ == '__main__':
-    app.run(debug=True)
-
 from dss import recommend
+import numpy as np
+
+def calculate_water_index(geojson_path):
+    with open(geojson_path) as f:
+        water_data = json.load(f)
+    # Calculate total water area ratio from features
+    total_area = 0
+    water_area = 0
+    for feature in water_data['features']:
+        if 'area' in feature['properties']:
+            area = feature['properties']['area']
+            total_area += area
+            if feature['properties'].get('isWater', True):  # Assuming water features
+                water_area += area
+    return water_area / max(total_area, 1e-6)  # Avoid division by zero
 
 @app.route('/api/recommendations')
 def recommendations():
-    # Demo record (would come from DB in real system)
-    record = {"land_size":0.5, "landholding_type":"smallholder", "is_farmer":True}
-    water_index = 0.1  # demo value
+    # Calculate real water index from water.geojson
+    water_index = calculate_water_index("../data/water.geojson")
+    
+    # Get real record from FRA data
+    with open("../data/fra.geojson") as f:
+        fra_data = json.load(f)
+    
+    if fra_data['features']:
+        # Use the first FRA record for demo
+        props = fra_data['features'][0]['properties']
+        record = {
+            "land_size": props.get('area', 0.5),
+            "landholding_type": "smallholder",  # This could be determined from area
+            "is_farmer": True  # This could be determined from land use
+        }
+    else:
+        # Fallback to demo data
+        record = {"land_size":0.5, "landholding_type":"smallholder", "is_farmer":True}
+    
     recs = recommend(record, water_index)
     return jsonify(recs)
+
+if __name__ == '__main__':
+    app.run(debug=True)
