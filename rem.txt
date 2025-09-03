@@ -1,0 +1,3 @@
+// {"type": "FeatureCollection", "features": [{"type": "Feature", "properties": {"patta_id": 1, "name": "Ram Das", "status": "Granted"}, "geometry": {"type": "Polygon", "coordinates": [[[80, 22], [80.1, 22], [80.1, 22.1], [80, 22.1], [80, 22]]]}}]}
+
+( from fra.json)
