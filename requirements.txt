@@ -1,0 +1,6 @@
+flask
+rasterio
+numpy
+Pillow
+pytesseract
+spacy
