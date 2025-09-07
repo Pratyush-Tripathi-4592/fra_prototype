@@ -9,6 +9,25 @@ Prefer L2A products when present.
 L2A normally comes with a Scene Classification Layer (SCL) and surface reflectance bands. 
 L1C contains TOA JP2s. If you have JP2s convert to GeoTIFF (below) or if you already have .tif bands you can skip conversion
 
-3) which bands and their native resolution
+3- which bands and their native resolution
 
 B03 (Green), B04 (Red) and B08 (NIR) are the 10 m bands you listed — ideal for NDVI / NDWI calculation and for mapping features at fine scale. (Other useful bands: B11/B12 SWIR are 20 m.)
+
+4- (If needed) convert/align bands to a common GeoTIFF / grid
+
+5- mask clouds & invalid pixels first
+
+If using L2A: use the Scene Classification Layer (SCL) to remove clouds
+cloud shadows, saturated/no-data pixels, snow, etc. 
+SCL is produced by Sen2Cor and has ~12 classes (NO_DATA, SATURATED, CLOUD_SHADOW, VEGETATION, WATER, CLOUD_MEDIUM/HIGH, THIN_CIRRUS, SNOW, …). 
+Use it to build a boolean valid-pixel mask
+
+7- post-processing & classification
+
+For water mapping use NDWI (Green, NIR): NDWI values > 0 (or >0.2/0.3 depending on local conditions) usually indicate water — tune threshold per site using validation points. 
+Consider MNDWI (replace NIR with SWIR, e.g. B11) to reduce built-up confusion and better detect open water in urban/complex scenes. 
+Sentinel Hub custom scripts
+
+For vegetation use NDVI (NIR vs Red): high values (~0.6–1.0) → dense green vegetation; low/negative → non-vegetated. Calibrate thresholds locally.
+
+Clean small speckles with morphological operations or majority filters; polygonize water/vegetation masks for mapping and integration with FRA boundaries.
