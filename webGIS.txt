@@ -1,0 +1,14 @@
+1- get the data
+
+Use the Copernicus browser / 
+Open Access Hub (or the new Copernicus Data Space) to search by tile/AOI
+date range and max cloud cover, then download the product (register/login required). 
+Prefer L2A products when present.
+
+2- confirm which files you have / product type
+L2A normally comes with a Scene Classification Layer (SCL) and surface reflectance bands. 
+L1C contains TOA JP2s. If you have JP2s convert to GeoTIFF (below) or if you already have .tif bands you can skip conversion
+
+3) which bands and their native resolution
+
+B03 (Green), B04 (Red) and B08 (NIR) are the 10 m bands you listed — ideal for NDVI / NDWI calculation and for mapping features at fine scale. (Other useful bands: B11/B12 SWIR are 20 m.)
