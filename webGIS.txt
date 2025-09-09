@@ -28,6 +28,8 @@ For water mapping use NDWI (Green, NIR): NDWI values > 0 (or >0.2/0.3 depending 
 Consider MNDWI (replace NIR with SWIR, e.g. B11) to reduce built-up confusion and better detect open water in urban/complex scenes. 
 Sentinel Hub custom scripts
 
+Sentinel Hub custom scripts
+
 For vegetation use NDVI (NIR vs Red): high values (~0.6–1.0) → dense green vegetation; low/negative → non-vegetated. Calibrate thresholds locally.
 
 Clean small speckles with morphological operations or majority filters; polygonize water/vegetation masks for mapping and integration with FRA boundaries.
